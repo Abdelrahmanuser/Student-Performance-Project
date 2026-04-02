@@ -1,0 +1,55 @@
+These are the column names 
+
+Gender
+Race
+SES_Quartile
+ParentalEducation
+SchoolType
+Locale
+TestScore_Math
+TestScore_Reading
+TestScore_Science
+GPA
+AttendanceRate
+StudyHours
+InternetAccess
+Extracurricular
+PartTimeJob
+ParentSupport
+Romantic
+FreeTime
+GoOut
+_________________________
+
+# STEP NO. 1 
+Possible categorical variables 
+That might need encoding 
+
+- Note Both School And Gender will get one hot encoding 
+
+Note Public = 0 and private = 1 
+Male = 0 , Female 1 
+
+    1- Gender  ( Female , Male )  ---- ( 1, 0 )  ( Done )
+        Female  = 1   Male = 0  
+
+    2- Race  / Ethnicity  ( ONE HOT ENCODING ) (  DONE )
+        ( White , Hispanic , black Asian , 2+ other)
+
+    3- Parental Education :  ( DONE )
+        <HS , HS , Some College , Bachelors+
+
+
+    4- School Type  ( DONE )
+        Public , Private- 
+            public : 0 , private : 1 
+
+    5- Locale :  ( ONE HOT ENCODING ) ( DONE )
+        Suburban , city , rural , town 
+            suburban : 
+            city : 
+            rural :  
+            town :   
+
+
+# Step No.2 In The ANALYSIS 
