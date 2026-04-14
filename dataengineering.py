@@ -50,7 +50,11 @@ def preprocessing(train_raw , val_raw , test_raw) :
     # we are basically calculating std and mean using the train data set 
     X_val[SCALE_FEATURES] = scaler.transform(X_val[SCALE_FEATURES])
     X_test[SCALE_FEATURES] = scaler.transform(X_test[SCALE_FEATURES])
-    return X_train[:200000] , X_val , scaler , X_test , y_train[:200000] , y_val , y_test 
+    X_train_sample = X_train.sample(500000,random_state = 42 )
+    y_train_sample = y_train.loc[X_train_sample.index] 
+    # the above line ensures that we are getting the correct y values that 
+    # match the randomly sampled x values 
+    return X_train_sample, X_val , scaler , X_test , y_train_sample, y_val , y_test 
 
 if __name__ == "__main__" :
     train_raw , val_raw , test_raw  = load_data()
@@ -59,6 +63,8 @@ if __name__ == "__main__" :
     print(f"We should have 8 million rows since this is y_train{y_train.shape}")
     print(f" The dimensions of the test data set is: {X_test.shape}")
     print(f" The dimensions of the validation data set is: {X_val.shape}")
+    print("X_train_sample first index:", X_train.index[0])
+    print("y_train_sample first index:", y_train.index[0])
 
 
 
