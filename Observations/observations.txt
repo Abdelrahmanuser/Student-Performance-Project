@@ -1,5 +1,0 @@
-Observation 1: 
-The linear regression model indicates that attendance
- rate is the most influential predictor of GPA, with a significantly larger 
- coefficient than other features. This suggests that consistent school attendance is 
- strongly associated with academic performance within the dataset.
