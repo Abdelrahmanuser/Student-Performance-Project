@@ -31,7 +31,7 @@ FEATURES = [
     "Race_Two-or-more", "Race_White",
     "Locale_City", "Locale_Rural", "Locale_Suburban", "Locale_Town"
 ]
-SCALE_FEATURES = ["GoOut", "FreeTime", "StudyHours"]
+SCALE_FEATURES = ["AttendanceRate", "StudyHours", "FreeTime", "GoOut"]
 
 TARGET = "GPA"
  

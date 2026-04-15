@@ -1,6 +1,7 @@
 import streamlit as st 
 import joblib 
 import numpy as np 
+import pandas as pd 
 
 linearRegressionModel = joblib.load("models/linearregression.pkl")
 scaler = joblib.load("models/SCALER.pkl")
@@ -38,7 +39,7 @@ race_enc = [1 if race == r else 0 for r in race_options ] # check the value if i
 locale_enc = [1 if locale == l else 0 for l in locale_options ]
 
 # Scale before building input array
-to_scale = np.array([[attendance, study_hours, freetime, goout]])  # Creating a numpy array shaped (1,4) so that we can feed it into scaler 
+to_scale = pd.DataFrame([[attendance , study_hours , freetime , goout]], columns=["AttendanceRate", "StudyHours", "FreeTime", "GoOut"])
 scaled = scaler.transform(to_scale)[0] # flattening the (1,4) numpy array into a 1d array 
 attendance_s, study_hours_s, freetime_s, goout_s = scaled[0], scaled[1], scaled[2], scaled[3] # Basically unpacking the 1d vector that scaler object returned 
  
@@ -55,3 +56,5 @@ input_array = np.array(full_features).reshape(1,-1)
 if st.button("Predict GPA"):
     prediction = linearRegressionModel.predict(input_array)
     st.success(f"The predicted GPA is: {prediction[0]:.2f}")
+    print("input Array")
+    print(input_array)

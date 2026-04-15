@@ -45,8 +45,11 @@ if __name__ == "__main__":
     train , val , test = load_data() 
     
     X_train , X_val , scaler , X_test , y_train , y_val , y_test  = preprocessing(train, val , test)
-    # results = train_allModels(X_train , y_train , X_val , y_val )
-    the_best_model = LinearRegression()  
-    the_best_model.fit(X_train,y_train)
-    save_model_and_scaler(the_best_model , scaler )
+    #results = train_allModels(X_train , y_train , X_val , y_val )
+    best_model = LinearRegression() 
+    best_model.fit(X_train,y_train)
+    joblib.dump(best_model , "data/linearregression.pkl")
+    joblib.dump(scaler,"data/SCALER.pkl")
+
+
     
