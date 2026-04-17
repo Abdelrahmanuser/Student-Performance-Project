@@ -14,11 +14,11 @@ gender = st.selectbox("Gender",["Male","Female"])
 ses = st.slider("SES Quartile",1,4,2)
 parental_edu = st.selectbox("Parental Education" , ["<HS", "HS", "SomeCollege", "Bachelors+"])
 school_type = st.selectbox("School Type", ["Public", "Private"])
-attendance = st.slider("Attendance Rate (%)", 0, 100, 80)
-study_hours = st.slider("Study Hours per Week", 0, 40, 10)
+attendance = st.slider("Attendance Rate ranging from 0 to 1  (%)", 0.0, 1.0, 0.8)
+study_hours = st.slider("Daily Study Hours (normalized 0-3)", 0.0, 3.0, 1.0)
 internet = st.selectbox("Internet Access", [0, 1])
 extracurricular = st.selectbox("Extracurricular Activities", [0, 1])
-parent_support = st.slider("Parent Support", 1, 5, 3)
+parent_support = st.selectbox("Parent Support", [0,1])
 romantic = st.selectbox("Romantic Relationship", [0, 1])
 freetime = st.slider("Free Time", 1, 5, 3)
 goout = st.slider("Goes Out", 1, 5, 3)
@@ -37,14 +37,15 @@ race_options = ["Asian", "Black", "Hispanic", "Other", "Two-or-more", "White"]
 locale_options = ["City", "Rural", "Suburban", "Town"]
 race_enc = [1 if race == r else 0 for r in race_options ] # check the value if it equals one of these replace it with one else then put 0 for every other race 
 locale_enc = [1 if locale == l else 0 for l in locale_options ]
+  
 
-# Scale before building input array
-to_scale = pd.DataFrame([[attendance , study_hours , freetime , goout]], columns=["AttendanceRate", "StudyHours", "FreeTime", "GoOut"])
+# Scaling these inputs so that they match the same scale that the model expects them to be 
+to_scale = pd.DataFrame([[ freetime , goout]], columns=[ "FreeTime", "GoOut"])
 scaled = scaler.transform(to_scale)[0] # flattening the (1,4) numpy array into a 1d array 
-attendance_s, study_hours_s, freetime_s, goout_s = scaled[0], scaled[1], scaled[2], scaled[3] # Basically unpacking the 1d vector that scaler object returned 
- 
+freetime_s, goout_s = scaled[0], scaled[1] # Basically unpacking the 1d vector that scaler object returned 
+
 ## Building a Feature vector to pass into the Model 
-base_features = [gender_enc , ses, edu_enc, school_enc , attendance_s , study_hours_s , internet , extracurricular , 
+base_features = [gender_enc , ses, edu_enc, school_enc , attendance , study_hours , internet , extracurricular , 
                  parent_support , romantic , freetime_s , goout_s ]
 
 full_features = base_features + race_enc + locale_enc 
@@ -52,9 +53,8 @@ input_array = np.array(full_features).reshape(1,-1)
 
 
 
-
 if st.button("Predict GPA"):
     prediction = linearRegressionModel.predict(input_array)
     st.success(f"The predicted GPA is: {prediction[0]:.2f}")
-    print("input Array")
-    print(input_array)
+    print(f" The Predicted GPA is: {prediction[0]}")
+    

@@ -4,7 +4,7 @@ from sklearn.preprocessing import StandardScaler
 
 #____ Loading All the three data sets into Pandas Data Frames
 def load_data() :
-    train = pd.read_csv("data/train.csv")
+    train = pd.read_csv("data/train.csv") 
     val = pd.read_csv("data/validation.csv")
     test = pd.read_csv("data/test.csv")
     return train  , val , test 
@@ -31,7 +31,7 @@ FEATURES = [
     "Race_Two-or-more", "Race_White",
     "Locale_City", "Locale_Rural", "Locale_Suburban", "Locale_Town"
 ]
-SCALE_FEATURES = ["AttendanceRate", "StudyHours", "FreeTime", "GoOut"]
+SCALE_FEATURES = ["FreeTime", "GoOut"]
 
 TARGET = "GPA"
  
@@ -39,14 +39,17 @@ def preprocessing(train_raw , val_raw , test_raw) :
     train = encode(train_raw)
     val = encode(val_raw)
     test = encode(test_raw)
-
+    
     # Seperating The fetures and the target for each data set 
 
     X_train, y_train = train[FEATURES], train[TARGET]
+
+    # checking if the values are bloaeted before or after 
     X_val,   y_val   = val[FEATURES] , val[TARGET]
     X_test,  y_test  = test[FEATURES] , test[TARGET]
+
     scaler = StandardScaler() 
-    X_train[SCALE_FEATURES] = scaler.fit_transform(X_train[SCALE_FEATURES])
+    X_train[SCALE_FEATURES] = scaler.fit_transform(X_train[SCALE_FEATURES])   # Uses the mean and std of the original data set to to scale
     # we are basically calculating std and mean using the train data set 
     X_val[SCALE_FEATURES] = scaler.transform(X_val[SCALE_FEATURES])
     X_test[SCALE_FEATURES] = scaler.transform(X_test[SCALE_FEATURES])
@@ -58,7 +61,7 @@ def preprocessing(train_raw , val_raw , test_raw) :
 
 if __name__ == "__main__" :
     train_raw , val_raw , test_raw  = load_data()
-    print(train_raw[["StudyHours","GPA"]].corr())
+    
     X_train , X_val , scaler , X_test , y_train , y_val , y_test  = preprocessing(train_raw , val_raw , test_raw)
     print(f" The dimensions of the Train data set is: {X_train.shape}")
     print(f"We should have 8 million rows since this is y_train{y_train.shape}")
